@@ -198,7 +198,7 @@ class Device:
                 logging.debug("Error when processing capabilities for %s,"\
                     "cap=%s" % (self._path, cap))
 
-def scan():
+def find_keyboard_devs():
     devices = []
     keyboards = []
     mice = []
@@ -214,17 +214,20 @@ def scan():
 
     for device in devices:
         if device.is_mouse():
-            logging.info("%s is a mouse (%s)" % (device.dev_path(),
+            logging.debug("%s is a mouse (%s)" % (device.dev_path(),
                 device.name()))
             mice.append(device)
         if device.is_keyboard():
-            logging.info("%s is a keyboard (%s)" % (device.dev_path(),
+            logging.debug("%s is a keyboard (%s)" % (device.dev_path(),
                 device.name()))
             keyboards.append(device)
         if device.is_touchpad():
-            logging.info("%s is a touchpad (%s)" % (device.dev_path(),
+            logging.debug("%s is a touchpad (%s)" % (device.dev_path(),
                 device.name()))
             touchpads.append(device)
-
+            
+    return keyboards
+            
+    
 if __name__ == "__main__":
-    scan()
+    find_keyboard_devs()
