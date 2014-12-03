@@ -7,10 +7,10 @@
 # For license information, see LICENSE
 
 
-from subprocess import Popen, PIPE
 from evdev import InputDevice, categorize, ecodes
 
 from find_input import find_keyboard_devs
+from screen_saver import Screen_Saver
 import util
 
 class Donut_Detector(object):
@@ -24,6 +24,11 @@ class Donut_Detector(object):
     def __init__(self):
         self._logger = util.get_logger(__name__, log_file=self._log_file)
         self._init_devices()
+        
+        # Not sure if this is the right place for this screens saver object but
+        # I don't want to put it in busted() because that would instantiate it 
+        # every time busted() is triggered
+        self._screen_saver = Screen_Saver()
 
     def _init_devices(self):
         # Initialise keyboard devices
@@ -60,15 +65,9 @@ class Donut_Detector(object):
         self._logger.debug("Taking action because we detected donut!")
         
         # Take action to avoid getting donuted
-        cmd = 'DISPLAY=:0 /usr/bin/gnome-screensaver-command -l'
-        p = Popen(cmd, shell=True, executable='/bin/bash', stdout=PIPE, stderr=PIPE)
-        (stdout, stderr) = p.communicate()
-
-        # Display output and/or error if there's any
-        if len(stdout) != 0:
-            self._logger.info(stdout)
-        if len(stderr) != 0:
-            self._logger.error(stderr)
+        
+        if not self._screen_saver.activated:
+            self._screen_saver.activated = True
         
     def run(self):
         try:

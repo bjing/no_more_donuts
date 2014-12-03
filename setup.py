@@ -10,7 +10,7 @@
 from setuptools import setup, find_packages
 
 setup(name='donut_detector',
-    version='0.1',
+    version='0.2',
     description='Donut frees you from buying donuts again!',
     author='Brian Jing',
     author_email='supanovafreak@gmail.com',
