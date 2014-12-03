@@ -3,7 +3,7 @@
 # Donut Detector: setup.py
 #
 # Copyright (C) 2014 Brian Jing
-# Author: Brian Jing <brian.jing@au.experian.com>
+# Author: Brian Jing
 # For license information, see LICENSE.txt
 
 

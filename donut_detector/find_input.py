@@ -3,7 +3,7 @@
 # Donut Detector: Utility for finding input device(s)
 #
 # Copyright (C) 2014 Brian Jing
-# Author: Brian Jing <brian.jing@au.experian.com>
+# Author: Brian Jing
 # For license information, see LICENSE.txt
 
 """
