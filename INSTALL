@@ -1,0 +1,19 @@
+
+## Install into system path ##
+It's very easy to install donut detector into the default location
+
+$ python setup.py install
+
+
+## Custom Install ##
+If you don't have system-wide permission to execute the above command, you can 
+manually specify the install location. You have a few options.
+
+1. Install as user
+$ python setup.py install --user
+
+2. If you maintain a set of python 3rd party libraries in your home directory
+$ python setup.py install --home=<dir> # <dir> usually is specified as ~
+
+3. Manually specify location.
+$ python setup.py install --prefix=<path>

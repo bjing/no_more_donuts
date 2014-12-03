@@ -1,0 +1,6 @@
+include README
+include LICENCE
+include VERSION
+include INSTALL
+include TODO
+include donut_detector.conf

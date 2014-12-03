@@ -1,4 +1,12 @@
-import sys
+#!/usr/bin/env python
+
+# Donut Detector: main script
+#
+# Copyright (C) 2014 Brian Jing
+# Author: Brian Jing <brian.jing@au.experian.com>
+# For license information, see LICENSE.txt
+
+
 import logging
 from subprocess import Popen
 from evdev import InputDevice, categorize, ecodes
@@ -6,13 +14,6 @@ from evdev import InputDevice, categorize, ecodes
 from find_input import find_keyboard_devs
 
 logging.basicConfig(level=logging.INFO)
-
-"""
-Categorized key event class methods
-['__class__', '__delattr__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__',
-'__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
-'__slots__', '__str__', '__subclasshook__', 'event', 'key_down', 'key_hold', 'key_up', 'keycode', 'keystate', 'scancode']
-"""
 
 class Donut_Detector(object):
     """ This an attempt to avoid being donuted at work, which would suck so bad
@@ -36,7 +37,7 @@ class Donut_Detector(object):
         else:
             self._cache += key
           
-        if 'UNDONUT' in self._cache:
+        if 'LEFTSHIFTU' in self._cache:
             # Only unlock when typed "undonut"
             self._locked = False
             self._cache = ''  
@@ -70,7 +71,6 @@ class Donut_Detector(object):
             logging.error(e)
 
 if __name__ == "__main__":
-
     dd = Donut_Detector()
     dd.run()
 

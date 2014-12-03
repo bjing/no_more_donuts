@@ -1,7 +1,10 @@
 #!/usr/bin/python
 
-# Copyright (C) 2012 Canonical, Ltd.
-# Author: Matthew Fischer <matthew.fischer@canonical.com>
+# Donut Detector: Utility for finding input device(s)
+#
+# Copyright (C) 2014 Brian Jing
+# Author: Brian Jing <brian.jing@au.experian.com>
+# For license information, see LICENSE.txt
 
 """
 find_input:
@@ -100,7 +103,7 @@ class Device:
         self._keymask = create_mask(get_mask_length(Bits.KEY_MAX))
 
     def path(self):
-        return _path
+        return self._path
 
     def name(self):
         name_path = os.path.join(self._path,"device/name")
@@ -110,7 +113,7 @@ class Device:
                 f = open(name_path, 'r')
                 name = f.read()
                 f.close()
-            except Exception, e:
+            except Exception:
                 logging.error("Unable to get name for %s" % self._path)
             return name.rstrip()
 
