@@ -4,7 +4,7 @@
 #
 # Copyright (C) 2014 Brian Jing
 # Author: Brian Jing
-# For license information, see LICENSE.txt
+# For license information, see LICENSE
 
 
 from distutils.core import setup
