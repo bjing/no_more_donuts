@@ -1,0 +1,17 @@
+INSTALL
+LICENCE
+MANIFEST.in
+README
+TODO
+VERSION
+setup.py
+src/donut-detector.conf
+src/donut_detector/__init__.py
+src/donut_detector/donut_detector.py
+src/donut_detector/find_input.py
+src/donut_detector/util.py
+src/donut_detector.egg-info/PKG-INFO
+src/donut_detector.egg-info/SOURCES.txt
+src/donut_detector.egg-info/dependency_links.txt
+src/donut_detector.egg-info/requires.txt
+src/donut_detector.egg-info/top_level.txt

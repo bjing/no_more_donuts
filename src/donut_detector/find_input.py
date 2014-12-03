@@ -13,7 +13,7 @@ Finds the mouse and keyboard input devices using /sys
 
 import os
 import platform
-import logging
+import util
 
 __author__ = "Matthew Fischer"
 __version__ = "0.2"
@@ -21,15 +21,18 @@ __copyright__ = "Copyright (c) 2012 Canonical Ltd."
 __license__ = "GPL"
 
 SEARCH_DIR = '/sys/class/input'
-logging.basicConfig(level=logging.INFO)
+
+# Initialise logger
+log_file = '/var/log/donut_detector.log'
+logger = util.get_logger(__name__, log_file=log_file)
 
 def word_size():
     bits, binary_format = platform.architecture()
     if bits.lower() == '32bit':
-        logging.debug("word size is 32 bits")
+        logger.debug("word size is 32 bits")
         return 32
     elif bits.lower() == '64bit':
-        logging.debug("word size is 64 bits")
+        logger.debug("word size is 64 bits")
         return 64
     else:
         raise Exception('word size is an unexpected value: %s' % bits)
@@ -114,7 +117,7 @@ class Device:
                 name = f.read()
                 f.close()
             except Exception:
-                logging.error("Unable to get name for %s" % self._path)
+                logger.error("Unable to get name for %s" % self._path)
             return name.rstrip()
 
     def dev_path(self):
@@ -140,7 +143,7 @@ class Device:
     # algorithm from test_pointers() in udev-builtin-input_id.c in udev
     def is_mouse(self):
         if self._keymask[Bits.BTN_TOOL_FINGER]:
-            logging.debug("found a touchpad, ignoring")
+            logger.debug("found a touchpad, ignoring")
             return False
         if self._keymask[Bits.BTN_MOUSE]:
             # ABS stuff seems to be for VMWare's mouse according to comments
@@ -198,7 +201,7 @@ class Device:
                         f.close()
                         self._build_cap_mask(val, cap)
             except Exception, e:
-                logging.debug("Error when processing capabilities for %s,"\
+                logger.debug("Error when processing capabilities for %s,"\
                     "cap=%s" % (self._path, cap))
 
 def find_keyboard_devs():
@@ -213,19 +216,19 @@ def find_keyboard_devs():
             d.read_capabilities()
             devices.append(d)
         else:
-            logging.debug("Skipping %s" + f)
+            logger.debug("Skipping %s" + f)
 
     for device in devices:
         if device.is_mouse():
-            logging.debug("%s is a mouse (%s)" % (device.dev_path(),
+            logger.debug("%s is a mouse (%s)" % (device.dev_path(),
                 device.name()))
             mice.append(device)
         if device.is_keyboard():
-            logging.debug("%s is a keyboard (%s)" % (device.dev_path(),
+            logger.debug("%s is a keyboard (%s)" % (device.dev_path(),
                 device.name()))
             keyboards.append(device)
         if device.is_touchpad():
-            logging.debug("%s is a touchpad (%s)" % (device.dev_path(),
+            logger.debug("%s is a touchpad (%s)" % (device.dev_path(),
                 device.name()))
             touchpads.append(device)
             

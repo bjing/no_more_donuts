@@ -7,16 +7,17 @@
 # For license information, see LICENSE
 
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(name='donut_detector',
     version='0.1',
-    description='Donut detector that frees you from buying donuts again!',
+    description='Donut frees you from buying donuts again!',
     author='Brian Jing',
     author_email='supanovafreak@gmail.com',
     url='gaydonut.net',
-    packages = ['donut_detector'],
-    data_files = [('/etc/init.d', ['donut_detector.conf']),
-                  ('/usr/local/bin', ['donut_detector/donut_detector.py'])],
+    package_dir={'': 'src'},
+    packages=find_packages('src'),
     install_requires=['evdev'],
+    data_files = [('/etc/init', ['src/donut-detector.conf']),
+                  ('/usr/local/bin', ['src/donut_detector/donut_detector.py'])],
 )

@@ -3,4 +3,4 @@ include LICENCE
 include VERSION
 include INSTALL
 include TODO
-include donut_detector.conf
+include src/donut-detector.conf

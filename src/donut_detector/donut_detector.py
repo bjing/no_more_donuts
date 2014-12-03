@@ -7,13 +7,11 @@
 # For license information, see LICENSE
 
 
-import logging
 from subprocess import Popen
 from evdev import InputDevice, categorize, ecodes
 
 from find_input import find_keyboard_devs
-
-logging.basicConfig(level=logging.INFO)
+import util
 
 class Donut_Detector(object):
     """ This an attempt to avoid being donuted at work, which would suck so bad
@@ -21,8 +19,10 @@ class Donut_Detector(object):
     _cache = '' # This is used to record keystrokes
     _devices = None # Input devices
     _locked = False
+    _log_file = '/var/log/donut_detector.log'
 
     def __init__(self):
+        self._logger = util.get_logger(__name__, log_file=self._log_file)
         self._init_devices()
 
     def _init_devices(self):
@@ -41,9 +41,9 @@ class Donut_Detector(object):
             # Only unlock when typed "undonut"
             self._locked = False
             self._cache = ''  
-        elif 'DONUT' in self._cache or 'DOGHNUT' in self._cache:
+        elif 'DONUT' in self._cache or 'DOUGHNUT' in self._cache:
             # TODO enable screen saver or something else...
-            logging.info("Donut detected!")
+            self._logger.info("Donut detected!")
             self.busted()
             # Reset cache back to empty after a detection
             self._cache = ''
@@ -60,7 +60,7 @@ class Donut_Detector(object):
     def run(self):
         try:
             for dev in self._devices:
-                logging.info(dev.fn, dev.name, dev.phys)
+                self._logger.info(dev.fn, dev.name, dev.phys)
                 for event in dev.read_loop():
                     if event.type == ecodes.EV_KEY:
                         cat_event = categorize(event)
@@ -68,7 +68,7 @@ class Donut_Detector(object):
                             print "Detected key press: %s" % cat_event.keycode
                             self.detect_donut(cat_event.keycode.lstrip('KEY_'))
         except Exception as e:
-            logging.error(e)
+            self._logger.error(e)
 
 if __name__ == "__main__":
     dd = Donut_Detector()
