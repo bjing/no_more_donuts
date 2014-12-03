@@ -1,0 +1,5 @@
+Resolve issue talking to DBus in Upstart daemon
+
+	I can't seem to auto launch DBus from within a Popen call, at least I've not 
+	found a way to do so. Therefore I need to explore using the dbus library to 
+	send signal to lock the screen. I've not had success yet.

@@ -7,7 +7,7 @@
 # For license information, see LICENSE
 
 
-from subprocess import Popen
+from subprocess import Popen, PIPE
 from evdev import InputDevice, categorize, ecodes
 
 from find_input import find_keyboard_devs
@@ -32,13 +32,16 @@ class Donut_Detector(object):
         self._devices = [InputDevice(fn.dev_path()) for fn in keyboards]
 
     def detect_donut(self, key):
+        # Handle backspace key
         if key == 'BACKSPACE':
             self._cache = self._cache[:-1]
         else:
             self._cache += key
           
+        # Check whether donuted condition is met
         if 'LEFTSHIFTU' in self._cache:
             # Only unlock when typed "undonut"
+            self._logger.debug("Detected recovery key press, recovering...")
             self._locked = False
             self._cache = ''  
         elif 'DONUT' in self._cache or 'DOUGHNUT' in self._cache:
@@ -48,16 +51,25 @@ class Donut_Detector(object):
             # Reset cache back to empty after a detection
             self._cache = ''
         
+        # Do not recover from donuted condition until recovery key is pressed
         if self._locked and not 'UNDONUT' in self._cache:
             self.busted()
 
     def busted(self):
         self._locked = True
-        cmd = '/usr/bin/gnome-screensaver-command -l'
         self._logger.debug("Taking action because we detected donut!")
-        p = Popen(cmd, shell=True)
-        p.communicate()
+        
+        # Take action to avoid getting donuted
+        cmd = 'DISPLAY=:0 /usr/bin/gnome-screensaver-command -l'
+        p = Popen(cmd, shell=True, executable='/bin/bash', stdout=PIPE, stderr=PIPE)
+        (stdout, stderr) = p.communicate()
 
+        # Display output and/or error if there's any
+        if len(stdout) != 0:
+            self._logger.info(stdout)
+        if len(stderr) != 0:
+            self._logger.error(stderr)
+        
     def run(self):
         try:
             for dev in self._devices:
