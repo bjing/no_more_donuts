@@ -53,7 +53,8 @@ class Donut_Detector(object):
 
     def busted(self):
         self._locked = True
-        cmd = 'gnome-screensaver-command -l'
+        cmd = '/usr/bin/gnome-screensaver-command -l'
+        self._logger.debug("Taking action because we detected donut!")
         p = Popen(cmd, shell=True)
         p.communicate()
 

@@ -19,5 +19,5 @@ setup(name='donut_detector',
     packages=find_packages('src'),
     install_requires=['evdev'],
     data_files = [('/etc/init', ['src/donut-detector.conf']),
-                  ('/usr/local/bin', ['src/donut_detector/donut_detector.py'])],
+                  ('/usr/local/bin', ['src/run_donut_detector.py'])],
 )
