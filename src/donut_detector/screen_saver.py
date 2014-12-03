@@ -7,7 +7,12 @@ class Screen_Saver(object):
     def __init__(self):
         self._logger = util.get_logger(__name__, log_file=self._log_file)
         
-        bus = dbus.SessionBus()
+        
+        try:
+            self._logger.info("Initialising DBus session")
+            bus = dbus.SessionBus()
+        except Exception as e:
+            self._logger.error(e)
         self._screensaver = bus.get_object('org.cinnamon.ScreenSaver', '/org/cinnamon/ScreenSaver')
         self._activated = bool(self._screensaver.GetActive())
         

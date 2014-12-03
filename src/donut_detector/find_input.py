@@ -224,7 +224,7 @@ def find_keyboard_devs():
                 device.name()))
             mice.append(device)
         if device.is_keyboard():
-            logger.debug("%s is a keyboard (%s)" % (device.dev_path(),
+            logger.info("%s is a keyboard (%s)" % (device.dev_path(),
                 device.name()))
             keyboards.append(device)
         if device.is_touchpad():
